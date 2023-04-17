@@ -1,6 +1,7 @@
 package com.example.springhibernate.KompisRESTAPI;
 
-import com.example.springhibernate.BookRESTAPI.Book;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 public class KompisController {
 
     private final KompisRepository repo;
+    private static final Logger log = LoggerFactory.getLogger(KompisController.class);
 
     public KompisController(KompisRepository repo) {
         this.repo = repo;
@@ -18,17 +20,20 @@ public class KompisController {
     @PostMapping("kompisar/add")
     public List<Kompis> addKompis(@RequestBody Kompis kompis){
         repo.save(kompis);
+        log.info("Din inskickade kompis har lagts in");
         return repo.findAll();
     }
 
     @RequestMapping("kompisar")
     public List<Kompis> getAllKompisar(){
+        log.info("Alla kompisar är listade");
         return repo.findAll();
     }
 
     @RequestMapping("kompisar/{id}/delete")
     public List<Kompis> deleteKompisById(@PathVariable long id){
         repo.deleteById(id);
+        log.info("Kompisen med id " + id + " har tagits bort");
         return repo.findAll();
     }
 }
@@ -96,4 +101,21 @@ Uppgift 1g – Skapa en deleteKompis-metod
 • Skapa en metod för att radera en kompis från databasen
 • Ge en lämplig inparameter för att kunna genomföra raderingen
 • Kolla att det funkar genom att anropa metoden från en browser
+ */
+
+/*
+Uppgift 3 – Loggning
+• Lägg till loggning till din controller-klass och bootstrapping-metod så att allt relevant som
+händer loggas
+• T.ex när en Kompis läggs till, tas bort, listas mm.
+• Experimentera med olika logg-nivåer på dina meddelanden och se till att dina loggmeddelanden har relevanta nivåer.
+• Experimentera med att sätta om loggnivåerna i application-properties och notera hur
+meddelandena som skrivs ut påverkas.
+ */
+
+/*
+Uppgift 2 – Bootstrapping
+• Skriv en Bootstrapping-metod som bootstrappar in alla dina kompisar i databasen
+• Experimentera med spring.jpa.hibernate.ddl-auto och se hur olika inställningar har olika effekt
+på Bootstrappingen
  */
